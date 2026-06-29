@@ -1,4 +1,8 @@
-from django.http import HttpResponse
+from django.http import JsonResponse
 
 def home(request):
-    return HttpResponse("Hello Employee API")
+    data ={
+        "message":"Hello my name is vihsal",
+        "status": True
+    }
+    return JsonResponse(data)
