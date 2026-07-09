@@ -1,66 +1,53 @@
+from django.core.serializers import serialize
 from django.http import JsonResponse
 from .models import Employee
 from django.views.decorators.csrf import csrf_exempt
 import json
+from rest_framework.response import Response
+from .serializers import EmployeeSerializer
+from rest_framework.decorators import api_view
 
-
+@api_view(["GET"])
 def home(request):
     employees = Employee.objects.all()
 
-    data = []
+    serializer = EmployeeSerializer(employees, many=True)
 
-    for emp in employees:
-        data.append({
-            "id": emp.id,
-            "name": emp.name,
-            "email": emp.email,
-            "department": emp.department,
-            "salary": emp.salary
-        })
-
-    return JsonResponse(data, safe=False)
+    return Response(serializer.data)
 
 
+
+
+@api_view(["GET"])
 def single_employee(request, id):
     try:
         employee = Employee.objects.get(id=id)
 
-        data = {
-            "id": employee.id,
-            "name": employee.name,
-            "email": employee.email,
-            "department": employee.department,
-            "salary": employee.salary
-        }
+        serializer =EmployeeSerializer(employee)
 
-        return JsonResponse(data)
+
+        return Response(serializer.data)
 
     except Employee.DoesNotExist:
-        return JsonResponse(
+        return Response(
             {"message": "Employee not found"},
             status=404
         )
 
 
-@csrf_exempt
+@api_view(["POST"])
 def create_employee(request):
-    if request.method == "POST":
-        body = json.loads(request.body)
-        Employee.objects.create(
-            name=body["name"],
-            email=body["email"],
-            department=body["department"],
-            salary=body["salary"]
 
-        )
+    serializer = EmployeeSerializer(data=request.data)
 
-        return JsonResponse({
-              "message": "Employee Created Successfully"
+    if serializer.is_valid():
+        serializer.save()
+
+        return Response({
+            "message": "Employee Created Successfully"
         })
 
-    return JsonResponse({
-        "message": "Only POST Request Allowed"
-    })
+    return Response(serializer.errors, status=400)
 @csrf_exempt
 def update_employee(request, id):
 
