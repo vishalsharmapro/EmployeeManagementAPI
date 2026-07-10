@@ -4,6 +4,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import RegisterSerializer, LoginSerializer
 from django.contrib.auth import authenticate
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import permission_classes
 
 
 @api_view(["GET"])
@@ -54,5 +56,15 @@ def login(request):
         }, status=401)
 
     return Response(serializer.errors, status=400)
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def profile(request):
 
+    user = request.user
+
+    return Response({
+        "id": user.id,
+        "username": user.username,
+        "email": user.email,
+    })
 
