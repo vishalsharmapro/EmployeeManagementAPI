@@ -2,8 +2,88 @@
 
 {% block content %}
 
-<h2>Welcome Vishal 👋</h2>
+<h2 class="mb-4">
+    Welcome, {{ user.username }} 👋
+</h2>
 
-<p>Employee Management System Started Successfully.</p>
+<div class="row">
+
+    <div class="col-md-3 mb-3">
+
+        <div class="card text-center shadow">
+
+            <div class="card-body">
+
+                <h5>Total Employees</h5>
+
+                <h2>{{ total_employees }}</h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3 mb-3">
+
+        <div class="card text-center shadow">
+
+            <div class="card-body">
+
+                <h5>Total Departments</h5>
+
+                <h2>{{ total_departments }}</h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3 mb-3">
+
+        <div class="card text-center shadow">
+
+            <div class="card-body">
+
+                <h5>Total Salary</h5>
+
+                <h2>₹ {{ total_salary }}</h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3 mb-3">
+
+        <div class="card text-center shadow">
+
+            <div class="card-body">
+
+                <h5>Average Salary</h5>
+
+                <h2>₹ {{ average_salary }}</h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="mt-4">
+
+    <a href="{% url 'employee_list' %}" class="btn btn-primary">
+        View Employees
+    </a>
+
+    <a href="{% url 'add_employee' %}" class="btn btn-success">
+        Add Employee
+    </a>
+
+</div>
 
 {% endblock %}

@@ -7,3 +7,8 @@ class Employee(models.Model):
     email=models.EmailField()
     department=models.CharField(max_length=100)
     salary=models.IntegerField()
+    photo=models.ImageField(
+        upload_to="employee/",
+        blank=True,
+        null=True
+    )

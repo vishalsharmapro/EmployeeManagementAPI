@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="mb-4">Employee Details</h2>
+
+<div class="card">
+
+    <div class="card-body">
+
+        <p><strong>Name:</strong> {{ employee.name }}</p>
+
+        <p><strong>Email:</strong> {{ employee.email }}</p>
+
+        <p><strong>Department:</strong> {{ employee.department }}</p>
+
+        <p><strong>Salary:</strong> ₹ {{ employee.salary }}</p>
+
+        <a href="{% url 'edit_employee' employee.id %}"
+           class="btn btn-warning">
+            Edit
+        </a>
+
+        <a href="{% url 'employee_list' %}"
+           class="btn btn-secondary">
+            Back
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -6,10 +6,33 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 
 from employee.models import Employee
+from django.db.models import Sum,Avg
 
 
 def home(request):
-    return render(request, "home.html")
+
+    total_employees = Employee.objects.count()
+
+    total_departments = Employee.objects.values(
+        "department"
+    ).distinct().count()
+
+    total_salary = Employee.objects.aggregate(
+        Sum("salary")
+    )["salary__sum"] or 0
+
+    average_salary = Employee.objects.aggregate(
+        Avg("salary")
+    )["salary__avg"] or 0
+
+    context = {
+        "total_employees": total_employees,
+        "total_departments": total_departments,
+        "total_salary": total_salary,
+        "average_salary": round(average_salary),
+    }
+
+    return render(request, "home.html", context)
 
 
 def login_page(request):
@@ -110,6 +133,17 @@ def edit_employee(request, id):
     }
 
     return render(request, "edit_employee.html", context)
+
+@login_required
+def employee_detail(request, id):
+
+    employee = Employee.objects.get(id=id)
+
+    context = {
+        "employee": employee
+    }
+
+    return render(request, "employee_detail.html", context)
 
 
 @login_required
