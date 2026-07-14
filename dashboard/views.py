@@ -65,8 +65,7 @@ def login_page(request):
 
 @login_required
 def employee_list(request):
-
-    search = request.GET.get("search")
+    search = request.GET.get("search", "")
 
     employees = Employee.objects.all()
 
@@ -101,6 +100,7 @@ def add_employee(request):
             email=request.POST["email"],
             department=request.POST["department"],
             salary=request.POST["salary"],
+            photo=request.FILES.get("photo")
         )
 
         messages.success(request, "Employee Added Successfully!")
@@ -121,6 +121,8 @@ def edit_employee(request, id):
         employee.email = request.POST["email"]
         employee.department = request.POST["department"]
         employee.salary = request.POST["salary"]
+        if request.FILES.get("photo"):
+            employee.photo = request.FILES.get("photo")
 
         employee.save()
 

@@ -10,7 +10,7 @@
 
     <div class="card-body">
 
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
 
             <div class="mb-3">
@@ -32,6 +32,18 @@
                 <label>Salary</label>
                 <input type="number" name="salary" class="form-control">
             </div>
+            <div class="mb-3">
+
+    <label class="form-label">
+        Employee Photo
+    </label>
+
+    <input
+        type="file"
+        name="photo"
+        class="form-control">
+
+</div>
 
             <button class="btn btn-success">
                 Save Employee

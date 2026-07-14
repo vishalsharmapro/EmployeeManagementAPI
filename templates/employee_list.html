@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 
 {% block content %}
@@ -23,7 +24,7 @@
                 name="search"
                 class="form-control"
                 placeholder="Search Employee..."
-                value="{{ search }}">
+                value="{{ search|default:'' }}">
 
         </div>
 
@@ -45,6 +46,7 @@
 
         <tr>
             <th>ID</th>
+            <th>Photo</th>
             <th>Name</th>
             <th>Email</th>
             <th>Department</th>
@@ -61,16 +63,38 @@
         <tr>
 
             <td>{{ employee.id }}</td>
-            <td>{{ employee.name }}</td>
-            <td>{{ employee.email }}</td>
-            <td>{{ employee.department }}</td>
-            <td>{{ employee.salary }}</td>
 
             <td>
+
+                {% if employee.photo %}
+
+                    <img src="{{ employee.photo.url }}"
+                         width="60"
+                         height="60"
+                         style="object-fit:cover;border-radius:50%;">
+
+                {% else %}
+
+                    No Photo
+
+                {% endif %}
+
+            </td>
+
+            <td>{{ employee.name }}</td>
+
+            <td>{{ employee.email }}</td>
+
+            <td>{{ employee.department }}</td>
+
+            <td>₹ {{ employee.salary }}</td>
+
+            <td>
+
                 <a href="{% url 'employee_detail' employee.id %}"
-   class="btn btn-info btn-sm">
-    View
-</a>
+                   class="btn btn-info btn-sm">
+                    View
+                </a>
 
                 <a href="{% url 'edit_employee' employee.id %}"
                    class="btn btn-warning btn-sm">
@@ -91,7 +115,7 @@
 
         <tr>
 
-            <td colspan="6" class="text-center">
+            <td colspan="7" class="text-center">
                 No Employees Found
             </td>
 
@@ -148,3 +172,4 @@
 </nav>
 
 {% endblock %}
+
