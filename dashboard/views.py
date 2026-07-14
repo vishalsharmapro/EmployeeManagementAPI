@@ -8,6 +8,8 @@ from django.core.paginator import Paginator
 from employee.models import Employee
 from django.db.models import Sum,Avg
 from department.models import Department
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 def home(request):
@@ -94,20 +96,40 @@ def employee_list(request):
 @login_required
 def add_employee(request):
 
-    departments = Department.objects.all()
-
     if request.method == "POST":
 
-        department = Department.objects.get(
-            id=request.POST["department"]
-        )
+        # Agar Department ForeignKey hai to pehle Department object lo
+        department = Department.objects.get(id=request.POST["department"])
 
-        Employee.objects.create(
+        employee = Employee.objects.create(
             name=request.POST["name"],
             email=request.POST["email"],
             department=department,
             salary=request.POST["salary"],
-            photo=request.FILES.get("photo")
+            photo=request.FILES.get("photo"),
+        )
+
+        # 👇 Employee create hone ke turant baad email bhejna hai
+        send_mail(
+            subject="Welcome to Our Company",
+            message=f"""
+Hello {employee.name},
+
+Welcome to our company!
+
+Your details:
+
+Department: {employee.department}
+Salary: ₹{employee.salary}
+
+We are happy to have you on our team.
+
+Regards,
+HR Team
+""",
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[employee.email],
+            fail_silently=False,
         )
 
         messages.success(request, "Employee Added Successfully!")
@@ -115,7 +137,7 @@ def add_employee(request):
         return redirect("employee_list")
 
     context = {
-        "departments": departments
+        "departments": Department.objects.all()
     }
 
     return render(request, "add_employee.html", context)
