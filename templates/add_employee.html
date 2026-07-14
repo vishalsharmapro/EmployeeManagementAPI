@@ -23,10 +23,27 @@
                 <input type="email" name="email" class="form-control">
             </div>
 
-            <div class="mb-3">
-                <label>Department</label>
-                <input type="text" name="department" class="form-control">
-            </div>
+
+<div class="mb-3">
+    <label>Department</label>
+
+    <select name="department" class="form-control" required>
+
+        <option value="">Select Department</option>
+
+        {% for department in departments %}
+
+            <option value="{{ department.id }}">
+                {{ department.name }}
+            </option>
+
+        {% endfor %}
+
+    </select>
+
+</div>
+
+
 
             <div class="mb-3">
                 <label>Salary</label>

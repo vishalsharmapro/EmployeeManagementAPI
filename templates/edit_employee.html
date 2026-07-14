@@ -25,11 +25,28 @@
                        value="{{ employee.email }}">
             </div>
 
-            <div class="mb-3">
-                <label>Department</label>
-                <input type="text"   name="department" class="form-control"
-                       value="{{ employee.department }}">
-            </div>
+<div class="mb-3">
+
+    <label>Department</label>
+
+    <select name="department" class="form-control" required>
+
+        {% for department in departments %}
+
+            <option value="{{ department.id }}"
+                {% if employee.department.id == department.id %}selected{% endif %}>
+
+                {{ department.name }}
+
+            </option>
+
+        {% endfor %}
+
+    </select>
+
+</div>
+
+
 
             <div class="mb-3">
                 <label>Salary</label>

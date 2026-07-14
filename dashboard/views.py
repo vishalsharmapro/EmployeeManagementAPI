@@ -7,6 +7,7 @@ from django.core.paginator import Paginator
 
 from employee.models import Employee
 from django.db.models import Sum,Avg
+from department.models import Department
 
 
 def home(request):
@@ -73,7 +74,7 @@ def employee_list(request):
         employees = employees.filter(
             Q(name__icontains=search) |
             Q(email__icontains=search) |
-            Q(department__icontains=search)
+            Q(department__name__icontains=search)
         )
 
     paginator = Paginator(employees, 5)
@@ -93,12 +94,18 @@ def employee_list(request):
 @login_required
 def add_employee(request):
 
+    departments = Department.objects.all()
+
     if request.method == "POST":
+
+        department = Department.objects.get(
+            id=request.POST["department"]
+        )
 
         Employee.objects.create(
             name=request.POST["name"],
             email=request.POST["email"],
-            department=request.POST["department"],
+            department=department,
             salary=request.POST["salary"],
             photo=request.FILES.get("photo")
         )
@@ -107,20 +114,28 @@ def add_employee(request):
 
         return redirect("employee_list")
 
-    return render(request, "add_employee.html")
+    context = {
+        "departments": departments
+    }
 
-
+    return render(request, "add_employee.html", context)
 @login_required
 def edit_employee(request, id):
 
     employee = Employee.objects.get(id=id)
+    departments = Department.objects.all()
 
     if request.method == "POST":
 
         employee.name = request.POST["name"]
         employee.email = request.POST["email"]
-        employee.department = request.POST["department"]
+
+        employee.department = Department.objects.get(
+            id=request.POST["department"]
+        )
+
         employee.salary = request.POST["salary"]
+
         if request.FILES.get("photo"):
             employee.photo = request.FILES.get("photo")
 
@@ -131,11 +146,11 @@ def edit_employee(request, id):
         return redirect("employee_list")
 
     context = {
-        "employee": employee
+        "employee": employee,
+        "departments": departments,
     }
 
     return render(request, "edit_employee.html", context)
-
 @login_required
 def employee_detail(request, id):
 
