@@ -1,19 +1,28 @@
-
 {% extends "base.html" %}
 
 {% block content %}
 
-<div class="d-flex justify-content-between align-items-center mb-3">
+<div class="d-flex justify-content-between align-items-center mb-4">
 
-    <h2>Employees</h2>
+    <div>
+        <h2 class="fw-bold mb-0">
+            👨 Employee List
+        </h2>
+
+        <small class="text-muted">
+            Manage all employees from one place.
+        </small>
+    </div>
 
     <a href="{% url 'add_employee' %}" class="btn btn-success">
-        Add Employee
+        + Add Employee
     </a>
 
 </div>
 
-<form method="GET" class="mb-3">
+<!-- Search Form -->
+
+<form method="GET" class="mb-4">
 
     <div class="row">
 
@@ -22,16 +31,16 @@
             <input
                 type="text"
                 name="search"
-                class="form-control"
-                placeholder="Search Employee..."
+                class="form-control form-control-lg"
+                placeholder="🔍 Search Employee..."
                 value="{{ search|default:'' }}">
 
         </div>
 
         <div class="col-md-2">
 
-            <button type="submit" class="btn btn-primary w-100">
-                Search
+            <button type="submit" class="btn btn-primary btn-lg w-100">
+              <i class="bi bi-search"></i> Search
             </button>
 
         </div>
@@ -40,92 +49,126 @@
 
 </form>
 
-<table class="table table-bordered table-striped">
+<!-- Employee Table -->
 
-    <thead class="table-dark">
+<div class="card shadow border-0">
 
-        <tr>
-            <th>ID</th>
-            <th>Photo</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Department</th>
-            <th>Salary</th>
-            <th>Action</th>
-        </tr>
+    <div class="card-body">
 
-    </thead>
+        <table class="table table-hover align-middle">
 
-    <tbody>
+            <thead class="table-dark">
 
-        {% for employee in employees %}
+                <tr>
 
-        <tr>
+                    <th>ID</th>
+                    <th>Photo</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Department</th>
+                    <th>Salary</th>
+                    <th>Action</th>
 
-            <td>{{ employee.id }}</td>
+                </tr>
 
-            <td>
+            </thead>
 
-                {% if employee.photo %}
+            <tbody>
 
-                    <img src="{{ employee.photo.url }}"
-                         width="60"
-                         height="60"
-                         style="object-fit:cover;border-radius:50%;">
+            {% for employee in employees %}
 
-                {% else %}
+                <tr>
 
-                    No Photo
+                    <td>{{ employee.id }}</td>
 
-                {% endif %}
+                    <td>
 
-            </td>
+                        {% if employee.photo %}
 
-            <td>{{ employee.name }}</td>
+                            <img
+                                src="{{ employee.photo.url }}"
+                                width="60"
+                                height="60"
+                                class="rounded-circle border border-primary"
+                                style="object-fit:cover;">
 
-            <td>{{ employee.email }}</td>
+                        {% else %}
 
-            <td>{{ employee.department }}</td>
+                            No Photo
 
-            <td>₹ {{ employee.salary }}</td>
+                        {% endif %}
 
-            <td>
+                    </td>
 
-                <a href="{% url 'employee_detail' employee.id %}"
-                   class="btn btn-info btn-sm">
-                    View
-                </a>
+                    <td>{{ employee.name }}</td>
 
-                <a href="{% url 'edit_employee' employee.id %}"
-                   class="btn btn-warning btn-sm">
-                    Edit
-                </a>
+                    <td>{{ employee.email }}</td>
 
-                <a href="{% url 'delete_employee' employee.id %}"
-                   class="btn btn-danger btn-sm"
-                   onclick="return confirm('Are you sure you want to delete this employee?')">
-                    Delete
-                </a>
+                    <td>
 
-            </td>
+                        <span class="badge bg-secondary">
 
-        </tr>
+                            {{ employee.department }}
 
-        {% empty %}
+                        </span>
 
-        <tr>
+                    </td>
 
-            <td colspan="7" class="text-center">
-                No Employees Found
-            </td>
+                    <td>
 
-        </tr>
+                        <strong>
 
-        {% endfor %}
+                            ₹ {{ employee.salary }}
 
-    </tbody>
+                        </strong>
 
-</table>
+                    </td>
+
+                    <td>
+
+                       <a href="{% url 'employee_detail' employee.id %}"
+                              class="btn btn-info btn-sm">
+                           <i class="bi bi-eye"></i> View
+                       </a>
+
+                       <a href="{% url 'edit_employee' employee.id %}"
+                             class="btn btn-warning btn-sm">
+                             <i class="bi bi-pencil-square"></i> Edit
+                       </a>
+
+                        <a href="{% url 'delete_employee' employee.id %}"
+                               class="btn btn-danger btn-sm"
+                                   onclick="return confirm('Are you sure you want to delete this employee?')">
+                                         <i class="bi bi-trash"></i> Delete
+                        </a>
+
+                    </td>
+
+                </tr>
+
+            {% empty %}
+
+                <tr>
+
+                    <td colspan="7" class="text-center text-muted">
+
+                        No Employees Found
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<!-- Pagination -->
 
 <nav class="mt-4">
 
@@ -137,7 +180,9 @@
 
             <a class="page-link"
                href="?page={{ employees.previous_page_number }}{% if search %}&search={{ search }}{% endif %}">
+
                 Previous
+
             </a>
 
         </li>
@@ -160,7 +205,9 @@
 
             <a class="page-link"
                href="?page={{ employees.next_page_number }}{% if search %}&search={{ search }}{% endif %}">
+
                 Next
+
             </a>
 
         </li>
@@ -172,4 +219,3 @@
 </nav>
 
 {% endblock %}
-

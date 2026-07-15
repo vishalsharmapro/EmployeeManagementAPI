@@ -10,6 +10,7 @@ from django.db.models import Sum,Avg
 from department.models import Department
 from django.core.mail import send_mail
 from django.conf import settings
+from django.db.models import Count
 
 
 def home(request):
@@ -27,12 +28,26 @@ def home(request):
     average_salary = Employee.objects.aggregate(
         Avg("salary")
     )["salary__avg"] or 0
+    department_data = (
+        Department.objects.annotate(
+            employee_count=Count("employee")
+        )
+    )
+
+    department_labels = []
+    department_counts = []
+
+    for department in department_data:
+        department_labels.append(department.name)
+        department_counts.append(department.employee_count)
 
     context = {
         "total_employees": total_employees,
         "total_departments": total_departments,
         "total_salary": total_salary,
         "average_salary": round(average_salary),
+        "department_labels": department_labels,
+        "department_counts": department_counts,
     }
 
     return render(request, "home.html", context)

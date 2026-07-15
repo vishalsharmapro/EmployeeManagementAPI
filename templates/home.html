@@ -2,88 +2,145 @@
 
 {% block content %}
 
-<h2 class="mb-4">
-    Welcome, {{ user.username }} 👋
-</h2>
+<div class="p-5 mb-4 rounded-4 text-white shadow"
+     style="background: linear-gradient(135deg,#0d6efd,#6610f2);">
 
-<div class="row">
+    <h1 class="fw-bold">
+        Employee Management System
+    </h1>
 
-    <div class="col-md-3 mb-3">
+    <p class="lead">
+        Welcome back, <strong>{{ user.username }}</strong> 👋
+        <br>
+        Manage Employees, Departments and Reports from one dashboard.
+    </p>
 
-        <div class="card text-center shadow">
+    <a href="{% url 'add_employee' %}" class="btn btn-light btn-lg mt-2">
+        + Add Employee
+    </a>
 
-            <div class="card-body">
+</div>
 
-                <h5>Total Employees</h5>
+<div class="row g-4">
 
-                <h2>{{ total_employees }}</h2>
-
+    <div class="col-md-3">
+        <div class="card border-0 shadow bg-primary text-white">
+            <div class="card-body text-center">
+                <h5>👨 Employees</h5>
+                <h1>{{ total_employees }}</h1>
             </div>
-
         </div>
-
     </div>
 
-    <div class="col-md-3 mb-3">
-
-        <div class="card text-center shadow">
-
-            <div class="card-body">
-
-                <h5>Total Departments</h5>
-
-                <h2>{{ total_departments }}</h2>
-
+    <div class="col-md-3">
+        <div class="card border-0 shadow bg-success text-white">
+            <div class="card-body text-center">
+                <h5>🏢 Departments</h5>
+                <h1>{{ total_departments }}</h1>
             </div>
-
         </div>
-
     </div>
 
-    <div class="col-md-3 mb-3">
-
-        <div class="card text-center shadow">
-
-            <div class="card-body">
-
-                <h5>Total Salary</h5>
-
-                <h2>₹ {{ total_salary }}</h2>
-
+    <div class="col-md-3">
+        <div class="card border-0 shadow bg-warning text-dark">
+            <div class="card-body text-center">
+                <h5>💰 Total Salary</h5>
+                <h4>₹ {{ total_salary }}</h4>
             </div>
-
         </div>
-
     </div>
 
-    <div class="col-md-3 mb-3">
-
-        <div class="card text-center shadow">
-
-            <div class="card-body">
-
-                <h5>Average Salary</h5>
-
-                <h2>₹ {{ average_salary }}</h2>
-
+    <div class="col-md-3">
+        <div class="card border-0 shadow bg-danger text-white">
+            <div class="card-body text-center">
+                <h5>📈 Avg Salary</h5>
+                <h4>₹ {{ average_salary }}</h4>
             </div>
-
         </div>
-
     </div>
 
 </div>
 
-<div class="mt-4">
+<div class="card shadow mt-5">
 
-    <a href="{% url 'employee_list' %}" class="btn btn-primary">
-        View Employees
-    </a>
+    <div class="card-body">
 
-    <a href="{% url 'add_employee' %}" class="btn btn-success">
-        Add Employee
-    </a>
+        <h4 class="mb-3">
+            Quick Actions
+        </h4>
+        <div class="card shadow border-0 mt-5">
+
+    <div class="card-body">
+
+        <h4 class="mb-4">
+            📊 Employees by Department
+        </h4>
+
+        <canvas id="departmentChart" height="120"></canvas>
+
+    </div>
+
+    </div>
+
+        <a href="{% url 'employee_list' %}"
+           class="btn btn-primary me-2">
+
+            View Employees
+
+        </a>
+
+        <a href="{% url 'add_employee' %}"
+           class="btn btn-success">
+
+            Add Employee
+
+        </a>
+
+    </div>
 
 </div>
+<script>
+
+const ctx = document.getElementById('departmentChart');
+
+new Chart(ctx, {
+
+    type: 'bar',
+
+    data: {
+
+        labels: {{ department_labels|safe }},
+
+        datasets: [{
+
+            label: 'Employees',
+
+            data: {{ department_counts|safe }},
+
+            borderWidth: 1
+
+        }]
+
+    },
+
+    options: {
+
+        responsive: true,
+
+        scales: {
+
+            y: {
+
+                beginAtZero: true
+
+            }
+
+        }
+
+    }
+
+});
+
+</script>
 
 {% endblock %}
