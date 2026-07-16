@@ -2,103 +2,239 @@
 
 {% block content %}
 
-<div class="p-5 mb-4 rounded-4 text-white shadow"
-     style="background: linear-gradient(135deg,#0d6efd,#6610f2);">
+<!-- Hero Section -->
+<div class="p-5 mb-4 rounded-4 shadow text-white"
+     style="background: linear-gradient(135deg,#1e3c72,#2a5298);">
 
-    <h1 class="fw-bold">
-        Employee Management System
-    </h1>
+    <div class="row align-items-center">
 
-    <p class="lead">
-        Welcome back, <strong>{{ user.username }}</strong> 👋
-        <br>
-        Manage Employees, Departments and Reports from one dashboard.
-    </p>
+        <div class="col-md-8">
 
-    <a href="{% url 'add_employee' %}" class="btn btn-light btn-lg mt-2">
-        + Add Employee
-    </a>
+            <h1 class="display-5 fw-bold">
+                👋 Welcome Back, {{ user.username }}
+            </h1>
+
+            <p class="lead mt-3">
+                Manage Employees, Departments, Reports and Exports
+                from one powerful dashboard.
+            </p>
+
+            <div class="mt-4">
+
+                <a href="{% url 'add_employee' %}"
+                   class="btn btn-light btn-lg me-2">
+
+                    <i class="bi bi-person-plus-fill"></i>
+                    Add Employee
+
+                </a>
+
+                <a href="{% url 'reports' %}"
+                   class="btn btn-outline-light btn-lg">
+
+                    <i class="bi bi-bar-chart-fill"></i>
+                    View Reports
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4 text-center">
+
+            <i class="bi bi-people-fill"
+               style="font-size:120px;opacity:.2;"></i>
+
+        </div>
+
+    </div>
 
 </div>
+
+
+<!-- Dashboard Cards -->
 
 <div class="row g-4">
 
-    <div class="col-md-3">
-        <div class="card border-0 shadow bg-primary text-white">
-            <div class="card-body text-center">
-                <h5>👨 Employees</h5>
-                <h1>{{ total_employees }}</h1>
-            </div>
-        </div>
-    </div>
+    <!-- Employees -->
 
     <div class="col-md-3">
-        <div class="card border-0 shadow bg-success text-white">
+
+        <div class="card border-0 shadow-lg h-100">
+
             <div class="card-body text-center">
-                <h5>🏢 Departments</h5>
-                <h1>{{ total_departments }}</h1>
+
+                <i class="bi bi-people-fill text-primary"
+                   style="font-size:45px;"></i>
+
+                <h5 class="mt-3">
+                    Employees
+                </h5>
+
+                <h2 class="fw-bold">
+                    {{ total_employees }}
+                </h2>
+
+                <small class="text-muted">
+                    Total Employees
+                </small>
+
             </div>
+
         </div>
+
     </div>
 
-    <div class="col-md-3">
-        <div class="card border-0 shadow bg-warning text-dark">
-            <div class="card-body text-center">
-                <h5>💰 Total Salary</h5>
-                <h4>₹ {{ total_salary }}</h4>
-            </div>
-        </div>
-    </div>
+    <!-- Departments -->
 
     <div class="col-md-3">
-        <div class="card border-0 shadow bg-danger text-white">
+
+        <div class="card border-0 shadow-lg h-100">
+
             <div class="card-body text-center">
-                <h5>📈 Avg Salary</h5>
-                <h4>₹ {{ average_salary }}</h4>
+
+                <i class="bi bi-building text-success"
+                   style="font-size:45px;"></i>
+
+                <h5 class="mt-3">
+                    Departments
+                </h5>
+
+                <h2 class="fw-bold">
+                    {{ total_departments }}
+                </h2>
+
+                <small class="text-muted">
+                    Active Departments
+                </small>
+
             </div>
+
         </div>
+
+    </div>
+
+    <!-- Total Salary -->
+
+    <div class="col-md-3">
+
+        <div class="card border-0 shadow-lg h-100">
+
+            <div class="card-body text-center">
+
+                <i class="bi bi-cash-stack text-warning"
+                   style="font-size:45px;"></i>
+
+                <h5 class="mt-3">
+                    Total Salary
+                </h5>
+
+                <h4 class="fw-bold">
+                    ₹ {{ total_salary }}
+                </h4>
+
+                <small class="text-muted">
+                    Monthly Salary Expense
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Average Salary -->
+
+    <div class="col-md-3">
+
+        <div class="card border-0 shadow-lg h-100">
+
+            <div class="card-body text-center">
+
+                <i class="bi bi-graph-up-arrow text-danger"
+                   style="font-size:45px;"></i>
+
+                <h5 class="mt-3">
+                    Average Salary
+                </h5>
+
+                <h4 class="fw-bold">
+                    ₹ {{ average_salary }}
+                </h4>
+
+                <small class="text-muted">
+                    Average per Employee
+                </small>
+
+            </div>
+
+        </div>
+
     </div>
 
 </div>
 
-<div class="card shadow mt-5">
+<!-- Department Chart -->
 
-    <div class="card-body">
-
-        <h4 class="mb-3">
-            Quick Actions
-        </h4>
-        <div class="card shadow border-0 mt-5">
+<div class="card shadow border-0 mt-5">
 
     <div class="card-body">
 
         <h4 class="mb-4">
+
             📊 Employees by Department
+
         </h4>
 
         <canvas id="departmentChart" height="120"></canvas>
 
     </div>
 
-    </div>
+</div>
+
+<!-- Quick Actions -->
+
+<div class="card shadow border-0 mt-4">
+
+    <div class="card-body">
+
+        <h4 class="mb-3">
+
+            ⚡ Quick Actions
+
+        </h4>
 
         <a href="{% url 'employee_list' %}"
            class="btn btn-primary me-2">
 
+            <i class="bi bi-people"></i>
             View Employees
 
         </a>
 
         <a href="{% url 'add_employee' %}"
-           class="btn btn-success">
+           class="btn btn-success me-2">
 
+            <i class="bi bi-person-plus-fill"></i>
             Add Employee
+
+        </a>
+
+        <a href="{% url 'reports' %}"
+           class="btn btn-dark">
+
+            <i class="bi bi-bar-chart-fill"></i>
+            View Reports
 
         </a>
 
     </div>
 
 </div>
+
+<!-- Chart Script -->
+
 <script>
 
 const ctx = document.getElementById('departmentChart');
@@ -117,6 +253,18 @@ new Chart(ctx, {
 
             data: {{ department_counts|safe }},
 
+            backgroundColor: [
+                '#0d6efd',
+                '#198754',
+                '#ffc107',
+                '#dc3545',
+                '#6610f2',
+                '#20c997',
+                '#fd7e14'
+            ],
+
+            borderRadius: 8,
+
             borderWidth: 1
 
         }]
@@ -126,6 +274,16 @@ new Chart(ctx, {
     options: {
 
         responsive: true,
+
+        plugins: {
+
+            legend: {
+
+                display: false
+
+            }
+
+        },
 
         scales: {
 

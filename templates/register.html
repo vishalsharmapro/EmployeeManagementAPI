@@ -2,16 +2,16 @@
 
 {% block content %}
 
-<div class="row justify-content-center mt-5">
+<div class="row justify-content-center">
 
     <div class="col-md-5">
 
         <div class="card shadow-lg border-0">
 
-            <div class="card-header bg-primary text-white text-center">
+            <div class="card-header bg-success text-white text-center">
 
-                <h3 class="mb-0">
-                    🔐 Login
+                <h3>
+                    📝 Create Account
                 </h3>
 
             </div>
@@ -32,7 +32,20 @@
                             type="text"
                             name="username"
                             class="form-control"
-                            placeholder="Enter Username"
+                            required>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Email
+                        </label>
+
+                        <input
+                            type="email"
+                            name="email"
+                            class="form-control"
                             required>
 
                     </div>
@@ -47,16 +60,29 @@
                             type="password"
                             name="password"
                             class="form-control"
-                            placeholder="Enter Password"
+                            required>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Confirm Password
+                        </label>
+
+                        <input
+                            type="password"
+                            name="confirm_password"
+                            class="form-control"
                             required>
 
                     </div>
 
                     <button
                         type="submit"
-                        class="btn btn-primary w-100">
+                        class="btn btn-success w-100">
 
-                        Login
+                        Create Account
 
                     </button>
 
@@ -66,10 +92,10 @@
 
                 <p class="text-center mb-0">
 
-                    Don't have an account?
+                    Already have an account?
 
-                    <a href="{% url 'register' %}">
-                        Create Account
+                    <a href="{% url 'login' %}">
+                        Login
                     </a>
 
                 </p>

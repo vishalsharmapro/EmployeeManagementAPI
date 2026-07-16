@@ -12,4 +12,7 @@ urlpatterns = [
     path("employees/<int:id>/", views.employee_detail, name="employee_detail"),
     path("employees/pdf/", views.export_employee_pdf, name="export_employee_pdf"),
     path("employees/excel/",views.export_employee_excel, name="export_employee_excel"),
+    path("reports/", views.reports, name="reports"),
+    path("register/", views.register_page, name="register"),
+    path("change-password/", views.change_password, name="change_password"),
 ]

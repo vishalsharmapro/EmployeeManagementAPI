@@ -6,7 +6,7 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 
 from employee.models import Employee
-from django.db.models import Sum,Avg
+from django.db.models import Sum,Avg,Max, Min
 from department.models import Department
 from django.core.mail import send_mail
 from django.conf import settings
@@ -14,6 +14,8 @@ from django.db.models import Count
 from django.http import HttpResponse
 from reportlab.pdfgen import canvas
 from openpyxl import Workbook
+from django.contrib.auth.models import User
+from django.contrib.auth import update_session_auth_hash
 
 
 
@@ -83,6 +85,48 @@ def login_page(request):
             messages.error(request, "Invalid Username or Password")
 
     return render(request, "login.html")
+
+def register_page(request):
+
+    if request.method == "POST":
+
+        username = request.POST["username"]
+        email = request.POST["email"]
+        password = request.POST["password"]
+        confirm_password = request.POST["confirm_password"]
+
+        if password != confirm_password:
+
+            messages.error(request, "Passwords do not match.")
+
+            return redirect("register")
+
+        if User.objects.filter(username=username).exists():
+
+            messages.error(request, "Username already exists.")
+
+            return redirect("register")
+
+        if User.objects.filter(email=email).exists():
+
+            messages.error(request, "Email already exists.")
+
+            return redirect("register")
+
+        User.objects.create_user(
+            username=username,
+            email=email,
+            password=password
+        )
+
+        messages.success(
+            request,
+            "Account created successfully. Please login."
+        )
+
+        return redirect("login")
+
+    return render(request, "register.html")
 
 
 @login_required
@@ -183,6 +227,37 @@ def export_employee_excel(request):
     workbook.save(response)
 
     return response
+
+@login_required
+def reports(request):
+
+    context = {
+        "total_employees": Employee.objects.count(),
+
+        "total_departments": Department.objects.count(),
+
+        "total_salary": Employee.objects.aggregate(
+            Sum("salary")
+        )["salary__sum"] or 0,
+
+        "average_salary": Employee.objects.aggregate(
+            Avg("salary")
+        )["salary__avg"] or 0,
+
+        "highest_salary": Employee.objects.aggregate(
+            Max("salary")
+        )["salary__max"] or 0,
+
+        "lowest_salary": Employee.objects.aggregate(
+            Min("salary")
+        )["salary__min"] or 0,
+    }
+
+    return render(
+        request,
+        "reports.html",
+        context
+    )
 
 
 @login_required
@@ -297,3 +372,38 @@ def logout_user(request):
     messages.success(request, "Logged Out Successfully!")
 
     return redirect("login")
+
+def index(request):
+
+    if request.user.is_authenticated:
+        return redirect("home")
+
+    return redirect("login")
+
+@login_required
+def change_password(request):
+
+    if request.method == "POST":
+
+        old_password = request.POST["old_password"]
+        new_password = request.POST["new_password"]
+        confirm_password = request.POST["confirm_password"]
+
+        if not request.user.check_password(old_password):
+            messages.error(request, "Old password is incorrect.")
+            return redirect("change_password")
+
+        if new_password != confirm_password:
+            messages.error(request, "Passwords do not match.")
+            return redirect("change_password")
+
+        request.user.set_password(new_password)
+        request.user.save()
+
+        update_session_auth_hash(request, request.user)
+
+        messages.success(request, "Password changed successfully.")
+
+        return redirect("home")
+
+    return render(request, "change_password.html")

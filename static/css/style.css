@@ -1,35 +1,338 @@
-body{
-    background:#f4f7fc;
+/* ==========================================
+   Employee Management System - Premium Theme
+========================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    transition:.25s ease;
 }
 
+body{
+    background:#eef2f7;
+    font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+    color:#1e293b;
+}
+
+/* =======================
+   Navbar
+======================= */
+
+.navbar{
+    background:linear-gradient(90deg,#0f172a,#1e293b,#334155)!important;
+    box-shadow:0 8px 25px rgba(0,0,0,.15);
+}
+
+.navbar-brand{
+    font-size:24px;
+    font-weight:700;
+    letter-spacing:.5px;
+}
+
+.navbar .btn{
+    border-radius:10px;
+}
+
+/* =======================
+   Sidebar
+======================= */
+
+.sidebar{
+    min-height:100vh;
+    background:#0f172a;
+    padding:20px 15px;
+    border-right:1px solid rgba(255,255,255,.08);
+}
+
+.sidebar h4{
+    color:#fff;
+    margin-bottom:30px;
+}
+
+.sidebar-link{
+    display:block;
+    color:#cbd5e1;
+    text-decoration:none;
+    padding:14px 16px;
+    border-radius:12px;
+    margin-bottom:10px;
+    font-weight:500;
+}
+
+.sidebar-link:hover{
+    background:#2563eb;
+    color:#fff;
+    padding-left:24px;
+}
+
+.sidebar-link i{
+    margin-right:10px;
+}
+
+/* =======================
+   Hero Section
+======================= */
+
+.hero{
+    background:linear-gradient(135deg,#1d4ed8,#1e3a8a);
+    color:white;
+    border-radius:22px;
+    padding:45px;
+    box-shadow:0 20px 40px rgba(0,0,0,.15);
+}
+
+.hero h1{
+    font-weight:700;
+}
+
+.hero p{
+    color:#dbeafe;
+}
+
+/* =======================
+   Cards
+======================= */
+
 .card{
+    background:#fff;
     border:none;
-    border-radius:15px;
-    transition:.3s;
+    border-radius:18px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
 }
 
 .card:hover{
-    transform:translateY(-5px);
-    box-shadow:0 12px 30px rgba(0,0,0,.15);
+    transform:translateY(-8px);
+    box-shadow:0 18px 35px rgba(0,0,0,.15);
 }
 
-.table tbody tr:hover{
-    background:#f8f9fa;
+.card-body{
+    color:#1e293b;
 }
 
-.table td,
+.card-body h2{
+    font-size:34px;
+    font-weight:700;
+    color:#111827;
+}
+
+.card-body h3,
+.card-body h4,
+.card-body h5{
+    color:#334155;
+}
+
+.card-body small{
+    color:#64748b;
+}
+
+/* Dashboard icons */
+
+.dashboard-icon{
+    font-size:50px;
+}
+
+/* =======================
+   Table
+======================= */
+
+.table{
+    margin-bottom:0;
+}
+
+.table thead{
+    background:#2563eb;
+    color:white;
+}
+
 .table th{
+    border:none;
+}
+
+.table td{
     vertical-align:middle;
 }
 
-.rounded-circle{
-    border:2px solid #0d6efd;
+.table tbody tr:hover{
+    background:#f1f5f9;
 }
+
+.table img{
+    width:60px;
+    height:60px;
+    object-fit:cover;
+    border-radius:50%;
+    border:3px solid #3b82f6;
+}
+
+/* =======================
+   Buttons
+======================= */
 
 .btn{
-    border-radius:8px;
+    border-radius:10px;
+    font-weight:500;
 }
 
-.navbar{
-    box-shadow:0 5px 15px rgba(0,0,0,.15);
+.btn-primary{
+    background:#2563eb;
+}
+
+.btn-success{
+    background:#16a34a;
+}
+
+.btn-danger{
+    background:#dc2626;
+}
+
+.btn-warning{
+    color:white;
+}
+
+/* =======================
+   Forms
+======================= */
+
+.form-control,
+.form-select{
+
+    border-radius:10px;
+    border:1px solid #dbe2ea;
+}
+
+.form-control:focus,
+.form-select:focus{
+
+    border-color:#2563eb;
+    box-shadow:0 0 10px rgba(37,99,235,.2);
+}
+
+/* =======================
+   Badge
+======================= */
+
+.badge{
+    border-radius:30px;
+    padding:8px 14px;
+}
+
+/* =======================
+   Pagination
+======================= */
+
+.page-link{
+    border-radius:8px;
+    margin:0 3px;
+}
+
+/* =======================
+   Footer
+======================= */
+
+footer{
+    margin-top:80px;
+    background:#0f172a;
+    color:white;
+    padding:45px 0;
+}
+
+footer h5{
+    color:white;
+    font-weight:700;
+}
+
+footer p{
+    color:#cbd5e1;
+}
+
+footer hr{
+    border-color:#334155;
+}
+
+footer span{
+    display:inline-block;
+    padding:10px 18px;
+    margin:5px;
+    background:#1e293b;
+    border-radius:25px;
+}
+
+footer span:hover{
+    background:#2563eb;
+}
+
+footer i{
+    color:#38bdf8;
+}
+
+footer .text-secondary{
+    color:#94a3b8!important;
+}
+
+/* =======================
+   Chart
+======================= */
+
+canvas{
+    background:white;
+    border-radius:12px;
+}
+
+/* =======================
+   Alerts
+======================= */
+
+.alert{
+    border-radius:12px;
+}
+
+/* =======================
+   Profile
+======================= */
+
+.profile-img{
+    width:180px;
+    height:180px;
+    object-fit:cover;
+    border-radius:50%;
+    border:5px solid #3b82f6;
+}
+
+/* =======================
+   Login Card
+======================= */
+
+.login-card{
+    max-width:450px;
+    margin:auto;
+    border-radius:20px;
+}
+
+/* =======================
+   Responsive
+======================= */
+
+@media(max-width:768px){
+
+.sidebar{
+
+    min-height:auto;
+}
+
+.hero{
+
+    text-align:center;
+}
+
+.card{
+
+    margin-bottom:20px;
+}
+
+.table{
+
+    font-size:14px;
+}
+
 }

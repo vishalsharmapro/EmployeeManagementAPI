@@ -15,28 +15,38 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-
-
-from django.urls import path,include
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
-
-
+from dashboard import views as dashboard_views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path("", include("dashboard.urls")),
-    path("accounts/",include("accounts.urls")),
+    path("admin/", admin.site.urls),
+
+    # Root URL
+    path("", dashboard_views.index, name="index"),
+
+    # Dashboard
+    path("dashboard/", include("dashboard.urls")),
+
+    # Accounts API
+    path("accounts/", include("accounts.urls")),
+
+    # JWT
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
-    path("dashboard/", include("dashboard.urls")),
+
+    # DRF API
     path("api/", include("api.urls")),
+
+    # Department
     path("department/", include("department.urls")),
 ]
+
 if settings.DEBUG:
     urlpatterns += static(
         settings.MEDIA_URL,

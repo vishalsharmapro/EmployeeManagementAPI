@@ -2,29 +2,140 @@
 
 {% block content %}
 
-<h2 class="mb-4">Employee Details</h2>
+<div class="row justify-content-center">
 
-<div class="card">
+    <div class="col-lg-8">
 
-    <div class="card-body">
+        <div class="card shadow border-0">
 
-        <p><strong>Name:</strong> {{ employee.name }}</p>
+            <div class="card-header bg-primary text-white">
 
-        <p><strong>Email:</strong> {{ employee.email }}</p>
+                <h3 class="mb-0">
+                   <i class="bi bi-person-vcard-fill"></i>
+                       Employee Profile
+                </h3>
 
-        <p><strong>Department:</strong> {{ employee.department }}</p>
+            </div>
 
-        <p><strong>Salary:</strong> ₹ {{ employee.salary }}</p>
+            <div class="card-body">
 
-        <a href="{% url 'edit_employee' employee.id %}"
-           class="btn btn-warning">
-            Edit
-        </a>
+                <div class="row">
 
-        <a href="{% url 'employee_list' %}"
-           class="btn btn-secondary">
-            Back
-        </a>
+                    <div class="col-md-4 text-center">
+
+                        {% if employee.photo %}
+
+                            <img src="{{ employee.photo.url }}"
+                                 class="img-fluid rounded-circle shadow"
+                                 style="width:180px;height:180px;object-fit:cover;">
+
+                        {% else %}
+
+                            <div class="text-center">
+
+                                   <i class="bi bi-person-circle text-secondary"
+                                       style="font-size:170px;"></i>
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+                    <div class="col-md-8">
+
+                        <table class="table table-borderless">
+
+                            <tr>
+                                <th>
+                                   <i class="bi bi-hash text-secondary"></i>
+                                              Employee ID
+                                </th>
+                                <td>{{ employee.id }}</td>
+                            </tr>
+
+                            <tr>
+                               <th>
+                                      <i class="bi bi-person-fill text-primary"></i>
+                                                 Name
+                               </th>
+                                <td>{{ employee.name }}</td>
+                            </tr>
+
+                            <tr>
+                               <th>
+                                     <i class="bi bi-envelope-fill text-danger"></i>
+                                               Email
+                               </th>
+                                <td>{{ employee.email }}</td>
+                            </tr>
+
+                            <tr>
+                               <th>
+                                    <i class="bi bi-building text-success"></i>
+                                        Department
+                               </th>
+                               <td>
+
+                                      <span class="badge bg-primary fs-6">
+
+                                       {{ employee.department }}
+
+                                      </span>
+
+                               </td>
+                            </tr>
+
+                            <tr>
+                                <th>
+                                   <i class="bi bi-currency-rupee text-warning"></i>
+                                           Salary
+                                </th>
+                                <td>
+                                    <span class="badge bg-success fs-6">
+                                        ₹ {{ employee.salary }}
+                                    </span>
+                                </td>
+                            </tr>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <div class="text-end">
+
+                    <a href="{% url 'edit_employee' employee.id %}"
+                       class="btn btn-warning">
+
+                        ✏ Edit Employee
+
+                    </a>
+
+                    <a href="{% url 'delete_employee' employee.id %}"
+                       class="btn btn-danger"
+                       onclick="return confirm('Delete this employee?')">
+
+                        <i class="bi bi-trash-fill"></i>
+                               Delete
+                    </a>
+
+                    <a href="{% url 'employee_list' %}"
+                       class="btn btn-secondary">
+
+                       <i class="bi bi-arrow-left-circle-fill"></i>
+Back
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 

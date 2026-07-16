@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Department
 from django.shortcuts import redirect
 from django.contrib import messages
+from employee.models import Employee
 
 
 @login_required
@@ -50,12 +51,23 @@ def edit_department(request, id):
 
     return render(request, "edit_department.html", context)
 @login_required
+@login_required
 def delete_department(request, id):
 
     department = Department.objects.get(id=id)
+
+    if Employee.objects.filter(department=department).exists():
+
+        messages.error(
+            request,
+            "This department cannot be deleted because employees are assigned to it."
+        )
+
+        return redirect("department_list")
 
     department.delete()
 
     messages.success(request, "Department Deleted Successfully!")
 
     return redirect("department_list")
+

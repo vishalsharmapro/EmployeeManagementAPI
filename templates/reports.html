@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="mb-4">
+    📊 Reports Dashboard
+</h2>
+
+<div class="row g-4">
+
+    <div class="col-md-4">
+        <div class="card shadow border-0 bg-primary text-white">
+            <div class="card-body text-center">
+                <h5>Total Employees</h5>
+                <h2>{{ total_employees }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow border-0 bg-success text-white">
+            <div class="card-body text-center">
+                <h5>Total Departments</h5>
+                <h2>{{ total_departments }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow border-0 bg-warning">
+            <div class="card-body text-center">
+                <h5>Total Salary</h5>
+                <h2>₹ {{ total_salary }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card shadow border-0 bg-info text-white">
+            <div class="card-body text-center">
+                <h5>Average Salary</h5>
+                <h2>₹ {{ average_salary|floatformat:0 }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow border-0 bg-danger text-white">
+            <div class="card-body text-center">
+                <h5>Highest Salary</h5>
+                <h2>₹ {{ highest_salary }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow border-0 bg-secondary text-white">
+            <div class="card-body text-center">
+                <h5>Lowest Salary</h5>
+                <h2>₹ {{ lowest_salary }}</h2>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
