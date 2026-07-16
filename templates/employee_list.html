@@ -14,9 +14,19 @@
         </small>
     </div>
 
-    <a href="{% url 'add_employee' %}" class="btn btn-success">
-        + Add Employee
+   <div>
+    <a href="{% url 'export_employee_pdf' %}" class="btn btn-danger">
+        📄 Download PDF
     </a>
+        <a href="{% url 'export_employee_excel' %}"
+       class="btn btn-success">
+        📊 Excel
+        </a>
+
+    <a href="{% url 'add_employee' %}" class="btn btn-success">
+        Add Employee
+    </a>
+    </div>
 
 </div>
 

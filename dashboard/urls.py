@@ -10,4 +10,6 @@ urlpatterns = [
     path("employees/delete/<int:id>/", views.delete_employee, name="delete_employee"),
     path("logout/", views.logout_user, name="logout"),
     path("employees/<int:id>/", views.employee_detail, name="employee_detail"),
+    path("employees/pdf/", views.export_employee_pdf, name="export_employee_pdf"),
+    path("employees/excel/",views.export_employee_excel, name="export_employee_excel"),
 ]

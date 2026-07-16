@@ -11,6 +11,10 @@ from department.models import Department
 from django.core.mail import send_mail
 from django.conf import settings
 from django.db.models import Count
+from django.http import HttpResponse
+from reportlab.pdfgen import canvas
+from openpyxl import Workbook
+
 
 
 def home(request):
@@ -106,6 +110,79 @@ def employee_list(request):
     }
 
     return render(request, "employee_list.html", context)
+
+@login_required
+def export_employee_pdf(request):
+
+    response = HttpResponse(content_type="application/pdf")
+    response["Content-Disposition"] = 'attachment; filename="employees.pdf"'
+
+    p = canvas.Canvas(response)
+
+    p.setFont("Helvetica-Bold", 16)
+    p.drawString(200, 800, "Employee List")
+
+    y = 760
+
+    employees = Employee.objects.all()
+
+    p.setFont("Helvetica", 12)
+
+    for employee in employees:
+        p.drawString(
+            50,
+            y,
+            f"{employee.id} | {employee.name} | {employee.email} | {employee.department} | ₹{employee.salary}"
+        )
+
+        y -= 25
+
+        if y < 50:
+            p.showPage()
+            p.setFont("Helvetica", 12)
+            y = 800
+
+    p.save()
+
+    return response
+
+@login_required
+def export_employee_excel(request):
+
+    workbook = Workbook()
+
+    sheet = workbook.active
+    sheet.title = "Employees"
+
+    sheet.append([
+        "ID",
+        "Name",
+        "Email",
+        "Department",
+        "Salary"
+    ])
+
+    employees = Employee.objects.all()
+
+    for employee in employees:
+
+        sheet.append([
+            employee.id,
+            employee.name,
+            employee.email,
+            str(employee.department),
+            employee.salary
+        ])
+
+    response = HttpResponse(
+        content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+
+    response["Content-Disposition"] = 'attachment; filename="employees.xlsx"'
+
+    workbook.save(response)
+
+    return response
 
 
 @login_required
